@@ -1,18 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Aug 19 10:21:36 2019
-
-@author: oliviagallup
-"""
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Aug 19 10:21:36 2019
-
-@author: oliviagallup
-"""
 
 import bpy
 import mathutils
@@ -21,15 +6,15 @@ from math import *
 import numpy as np
 
 # GLOBAL VAR'S
-filepath_vector = '/Users/oliviagallup/Desktop/Laser_Cutz/tattoo-butterfly.svg'    # Pathname of svg to import
+filepath_vector = '/Users/oliviagallup/Desktop/Laser_Cutz/Baby-Alien_wavy.svg'    # Pathname of svg to import
 # Color
-mat_color = [0 ,1, 0.0]      # RGB color scheme of obj
-bg_color = [1,0,0]       # RGB color of horizon (in 'world' settings)
-emit = 0.3          # Fluorescence of obj
-alpha = 0.324925      # Main (alpha) transparency of obj
+mat_color = [0.729347, 0.507079, 1.000000]      # RGB color scheme of obj
+bg_color = [0.067850, 0.077458, 0.242863]       # RGB color of horizon (in 'world' settings)
+emit = 0.4          # Fluorescence of obj
+alpha = 0.284925      # Main (alpha) transparency of obj
 frame_count = 36
 render_mode = 'SKY'     # Background color can be either 'SKY' or 'TRANSPARENT'
-output_filepath  = '/Users/oliviagallup/Desktop/Blendr/Animations/tat-butt'   # Directory to output the png's to
+output_filepath  = '/Users/oliviagallup/Desktop/Blendr/Animations/Baby-Alien_wavy'   # Directory to output the png's to
 
 # INITIATION
 # Delete all starting objects
@@ -43,13 +28,6 @@ bpy.ops.import_curve.svg(filepath= filepath_vector)
 
 # Obj Names
 obj_cutting_edge_n = bpy.data.objects[0].name         # Name of first object 'Curve' by default; the back-most vector in the svg will be the first imported, make sure this is the cut-out vector
-obj_engravings = bpy.data.objects[1:]   # List of objects that are not the cut vector, ie the engravings or rasters
-obj_engravings_n = obj_engravings    # Initializing array of engraved objects names
-loop_count =0
-for i in obj_engravings:        # For extracting names of the engraved objects
-    obj_engravings_n[loop_count] = i.name
-    loop_count = loop_count +1
-
 bpy.ops.object.camera_add()
 bpy.ops.object.lamp_add(type='HEMI')
 bpy.ops.object.lamp_add(type='POINT')
@@ -58,27 +36,8 @@ most_recent_mat_index = (np.size(bpy.data.materials) - 1)
 obj_mat = bpy.data.materials[most_recent_mat_index].name
 
 
-# Joining Vectors
-# Select all vectors you want to join, make sure one of them is active. Then join them rather than grouping or parenting them.
-# # Trying to change the context to bpy.context.area.type = "VIEW_3D" results in blender quitting
-for i in obj_engravings_n:      # Select vectors
-    print(i)
-    bpy.data.objects[i].select = True     # Blender 2.79 doesn't have bpy.ops.object.select_name(name ="")
-# bpy.ops.object.group_link(group=engravings_Group_name)
 
-engraved_obj = bpy.data.objects[obj_engravings_n[0]]
-bpy.context.scene.objects.active = engraved_obj      # Make object active; 2.8 uses the function context.view_layer.objects.active = obj for this
-engraved_obj_n = engraved_obj.name
-bpy.ops.object.join()
 
-# bpy.ops.object.mode_set(mode='EDIT')
-bpy.ops.object.material_slot_remove()
-bpy.ops.object.material_slot_add()
-engraved_mat = bpy.data.materials.new("ok")
-#engraved_mat = bpy.data.materials[-1]
-bpy.data.objects[engraved_obj_n].material_slots[-1].link
-engraved_mat.name = "Engraved_Mat"
-bpy.ops.object.mode_set(mode='OBJECT')
 
 
 
@@ -191,7 +150,7 @@ bpy.data.scenes["Scene"].render.alpha_mode = render_mode       #'TRANSPARENT'
 
 bpy.context.screen.scene = bpy.data.scenes[0]
 bpy.context.scene.camera = bpy.data.objects['Camera']
-# bpy.ops.render.render(animation=True)
+bpy.ops.render.render(animation=True)
 
 
 
